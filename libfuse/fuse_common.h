@@ -21,19 +21,23 @@
 #ifndef _FUSE_COMMON_H
 #define _FUSE_COMMON_H
 
+#include "fuse_base.h"
 #include "fuse_opt.h"
 
+/* fuse_common.h must include fuse_opt.h, as that's what the original
+   fuse_common.h does.  */
+
 #include <stdint.h>
+
+/* Pretend to be libfuse 3.16 */
+#define FUSE_MAJOR_VERSION 3
+#define FUSE_MINOR_VERSION 16
+#define FUSE_MAKE_VERSION(major, minor) ((major) * 100 + (minor))
+#define FUSE_VERSION FUSE_MAKE_VERSION (FUSE_MAJOR_VERSION, FUSE_MINOR_VERSION)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/* Check for this definition to conditionally compile
-   code in fuse-based filesystems.  */
-#define FUSE_HURD 1
-
-#define FUSE_API __attribute__ ((visibility ("default")))
 
 struct fuse_file_info
 {
@@ -50,9 +54,13 @@ struct fuse_loop_config
 };
 
 struct fuse_session;
+struct fuse_conn_info;
 
 FUSE_API int fuse_set_signal_handlers (struct fuse_session *sesession);
 FUSE_API void fuse_remove_signal_handlers (struct fuse_session *session);
+
+FUSE_API int fuse_version (void);
+FUSE_API const char *fuse_pkgversion (void);
 
 #ifdef __cplusplus
 }

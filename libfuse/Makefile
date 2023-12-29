@@ -20,10 +20,11 @@ libname = libfuse
 
 IOSRCS = io-read.c
 FSYSSRCS = fsys-getroot.c
-SESSIONSRCS = session-destroy.c session-new.c session-mount.c session-unmount.c session-loop.c
-OTHERSRCS = demuxer.c info.c add-direntry.c
-SRCS = $(OTHERSRCS) $(IOSRCS) $(FSYSSRCS) $(SESSIONSRCS)
-installhdrs = fuse_common.h fuse_lowlevel.h fuse_opt.h
+SESSIONSRCS = session-destroy.c session-new.c session-mount.c session-unmount.c session-loop.c session-exit.c
+OTHERSRCS = demuxer.c add-direntry.c make-peropen.c make-protid.c nref.c signal-handlers.c
+UISRCS = info.c opt.c cmdline.c
+SRCS = $(OTHERSRCS) $(IOSRCS) $(FSYSSRCS) $(SESSIONSRCS) $(UISRCS)
+installhdrs = fuse_base.h fuse_common.h fuse_lowlevel.h fuse_opt.h
 
 MIGSTUBS = fsServer.o ioServer.o fsysServer.o
 OBJS = $(sort $(SRCS:.c=.o) $(MIGSTUBS))
@@ -32,6 +33,10 @@ HURDLIBS = fshelp iohelp ports shouldbeinlibc ihash
 LDLIBS += -lpthread
 
 CFLAGS = -fvisibility=hidden
+libfuse.so-LDFLAGS = -Wl,--no-undefined
+
+# Temp: drop this when we implement more routines
+CFLAGS += -DMIG_EOPNOTSUPP=EOPNOTSUPP
 
 fsys-MIGSFLAGS = -imacros $(srcdir)/fsmutations.h
 fs-MIGSFLAGS = -imacros $(srcdir)/fsmutations.h

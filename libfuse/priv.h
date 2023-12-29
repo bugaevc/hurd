@@ -63,6 +63,7 @@ struct fuse_session
   const struct fuse_lowlevel_ops *ops;
   void *userdata;
   struct node *root_np;
+  int terminated : 1;
 };
 
 enum reply_to
@@ -95,6 +96,9 @@ fuse_req_new (mach_port_t reply_port,
 
 struct peropen *fuse_make_peropen (struct node *np, int flags);
 struct protid *fuse_make_protid (struct peropen *po, struct iouser *cred);
+
+void fuse_nref (struct node *np);
+void fuse_nref_light (struct node *np);
 
 /* For MIG.  */
 typedef struct protid *protid_t;

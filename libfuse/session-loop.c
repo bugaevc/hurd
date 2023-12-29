@@ -27,3 +27,12 @@ fuse_session_loop (struct fuse_session *session)
   ports_manage_port_operations_one_thread (fuse_port_bucket, fuse_demuxer, 0);
   return 0;
 }
+
+int
+fuse_session_loop_mt (struct fuse_session *session,
+		      struct fuse_loop_config *config)
+{
+  ports_manage_port_operations_multithread (fuse_port_bucket, fuse_demuxer,
+					    0, 0, 0);
+  return 0;
+}
