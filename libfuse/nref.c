@@ -18,21 +18,16 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111, USA. */
 
-
 #include "priv.h"
 
-int
-fuse_session_loop (struct fuse_session *session)
+void
+fuse_nref (struct node *np)
 {
-  ports_manage_port_operations_one_thread (fuse_port_bucket, fuse_demuxer, 0);
-  return 0;
+  refcounts_ref (&np->refcounts, NULL);
 }
 
-int
-fuse_session_loop_mt (struct fuse_session *session,
-		      struct fuse_loop_config *config)
+void
+fuse_nref_light (struct node *np)
 {
-  ports_manage_port_operations_multithread (fuse_port_bucket, fuse_demuxer,
-					    0, 0, 0);
-  return 0;
+  refcounts_ref_weak (&np->refcounts, NULL);
 }

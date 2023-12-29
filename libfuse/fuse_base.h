@@ -18,21 +18,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111, USA. */
 
+#ifndef _FUSE_BASE_H
+#define _FUSE_BASE_H
 
-#include "priv.h"
+/* Check for this definition to conditionally compile
+   code in fuse-based filesystems.  */
+#define FUSE_HURD 1
 
-int
-fuse_session_loop (struct fuse_session *session)
-{
-  ports_manage_port_operations_one_thread (fuse_port_bucket, fuse_demuxer, 0);
-  return 0;
-}
+#define FUSE_API __attribute__ ((visibility ("default")))
 
-int
-fuse_session_loop_mt (struct fuse_session *session,
-		      struct fuse_loop_config *config)
-{
-  ports_manage_port_operations_multithread (fuse_port_bucket, fuse_demuxer,
-					    0, 0, 0);
-  return 0;
-}
+#endif

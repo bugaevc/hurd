@@ -28,3 +28,15 @@ fuse_lowlevel_version (void)
 {
   printf (STANDARD_HURD_VERSION (libfuse) "\n");
 }
+
+int
+fuse_version (void)
+{
+  return FUSE_VERSION;
+}
+
+const char *
+fuse_pkgversion (void)
+{
+  return STANDARD_HURD_VERSION (libfuse);
+}

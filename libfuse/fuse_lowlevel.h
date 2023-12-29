@@ -21,6 +21,7 @@
 #ifndef _FUSE_LOWLEVEL_H
 #define _FUSE_LOWLEVEL_H
 
+#include "fuse_base.h"
 #include "fuse_common.h"
 
 #include <sys/stat.h>
@@ -30,6 +31,7 @@
 extern "C" {
 #endif
 
+struct fuse_args;
 struct fuse_session;
 typedef struct fuse_req *fuse_req_t;
 
@@ -153,12 +155,16 @@ FUSE_API int fuse_session_loop_mt (struct fuse_session *session,
 
 FUSE_API void fuse_session_exit (struct fuse_session *session);
 FUSE_API int fuse_session_exited (struct fuse_session *session);
+FUSE_API void fuse_session_reset (struct fuse_session *session);
 
 /* Misc.  */
 
 FUSE_API void fuse_lowlevel_version (void);
 FUSE_API void fuse_lowlevel_help (void);
 FUSE_API void fuse_cmdline_help (void);
+
+FUSE_API int fuse_parse_cmdline (struct fuse_args *args,
+				 struct fuse_cmdline_opts *opts);
 
 #ifdef __cplusplus
 }
