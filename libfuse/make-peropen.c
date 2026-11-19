@@ -23,7 +23,6 @@
 struct peropen *
 fuse_make_peropen (struct node *np, int flags)
 {
-  error_t err;
   struct peropen *po;
 
   po = calloc (1, sizeof (struct peropen));

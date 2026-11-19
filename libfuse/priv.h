@@ -55,11 +55,14 @@ struct node
   struct fuse_session *session;
   io_statbuf_t stat;
   struct transbox transbox;
+  hurd_ihash_locp_t locp;  /* inside fuse_session.active_nodes */
+  uint64_t nlookup;
 };
 
 struct fuse_session
 {
   struct port_info pi;
+  struct hurd_ihash active_nodes;  /* fuse_ino_t -> struct node */
   const struct fuse_lowlevel_ops *ops;
   void *userdata;
   struct node *root_np;
@@ -69,6 +72,7 @@ struct fuse_session
 enum reply_to
 {
   REPLY_TO_IO_READ,
+  REPLY_TO_DIR_LOOKUP
 };
 
 struct fuse_req
@@ -77,6 +81,14 @@ struct fuse_req
   mach_port_t reply_port;
   mach_msg_type_name_t reply_port_type;
   enum reply_to reply_to;
+  union
+  {
+    struct
+    {
+      int flags;
+      mode_t mode;
+    } dir_lookup_args;
+  };
 };
 
 static inline fuse_req_t

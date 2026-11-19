@@ -23,7 +23,7 @@
 
 #include <fcntl.h>
 
-error_t
+kern_return_t
 fuse_S_fsys_getroot (struct fuse_session *session,
 		     mach_port_t reply,
 		     mach_msg_type_name_t reply_type,

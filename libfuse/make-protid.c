@@ -39,5 +39,5 @@ fuse_make_protid (struct peropen *po, struct iouser *cred)
   pi->po = po;
   pi->user = cred;
 
-  return po;
+  return pi;
 }

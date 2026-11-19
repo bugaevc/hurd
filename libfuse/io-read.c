@@ -23,7 +23,7 @@
 
 #include <fcntl.h>
 
-error_t
+kern_return_t
 fuse_S_io_read (struct protid *user,
 		mach_port_t reply_port,
 		mach_msg_type_name_t reply_port_type,
@@ -65,6 +65,8 @@ fuse_S_io_read (struct protid *user,
   else
     {
       req = fuse_req_new (reply_port, reply_port_type, REPLY_TO_IO_READ);
+      if (!req)
+        return errno;
       np->session->ops->read (req, np->stat.st_ino, amount,
 			      effective_offset, &po->fi);
       return MIG_NO_REPLY;

@@ -20,13 +20,14 @@ libname = libfuse
 
 IOSRCS = io-read.c
 FSYSSRCS = fsys-getroot.c
+FSSRCS = dir-lookup.c
 SESSIONSRCS = session-destroy.c session-new.c session-mount.c session-unmount.c session-loop.c session-exit.c
-OTHERSRCS = demuxer.c add-direntry.c make-peropen.c make-protid.c nref.c signal-handlers.c
+OTHERSRCS = demuxer.c add-direntry.c make-peropen.c make-protid.c nref.c signal-handlers.c reply.c
 UISRCS = info.c opt.c cmdline.c
-SRCS = $(OTHERSRCS) $(IOSRCS) $(FSYSSRCS) $(SESSIONSRCS) $(UISRCS)
+SRCS = $(OTHERSRCS) $(IOSRCS) $(FSYSSRCS) $(FSSRCS) $(SESSIONSRCS) $(UISRCS)
 installhdrs = fuse_base.h fuse_common.h fuse_lowlevel.h fuse_opt.h
 
-MIGSTUBS = fsServer.o ioServer.o fsysServer.o
+MIGSTUBS = fsServer.o ioServer.o fsysServer.o fs_replyUser.o
 OBJS = $(sort $(SRCS:.c=.o) $(MIGSTUBS))
 
 HURDLIBS = fshelp iohelp ports shouldbeinlibc ihash

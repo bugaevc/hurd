@@ -60,7 +60,7 @@ fuse_session_new (struct fuse_args *args,
 
   session->userdata = userdata;
   session->ops = ops;
+  hurd_ihash_init (&session->active_nodes, offsetof (struct node, locp));
 
   return session;
 }
-
